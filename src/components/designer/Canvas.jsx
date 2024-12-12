@@ -20,6 +20,13 @@ const Canvas = () => {
   
   useEffect(() => {
     const handleKeyDown = (e) => {
+      // Don't handle delete/backspace if we're in an input field
+      if (e.target.tagName.toLowerCase() === 'input' || 
+          e.target.tagName.toLowerCase() === 'textarea' ||
+          e.target.isContentEditable) {
+        return
+      }
+
       if (selectedElement && (e.key === 'Delete' || e.key === 'Backspace')) {
         e.preventDefault()
         removeElement(selectedElement.id)

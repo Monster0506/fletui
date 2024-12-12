@@ -41,10 +41,47 @@ const generateControlCodeWithFunctions = (element, buttonFunctions, filePickerDi
 
     case 'button':
       const buttonFuncName = buttonFunctions.get(element.id)
-      return `ft.ElevatedButton(
+      const buttonVariant = styles.variant || 'default'
+      const buttonSize = styles.size || 'default'
+      
+      // Map variant to button type and style
+      let ButtonClass = 'ft.ElevatedButton'
+      let buttonStyle = {}
+      
+      switch (buttonVariant) {
+        case 'outline':
+          ButtonClass = 'ft.OutlinedButton'
+          break
+        case 'text':
+          ButtonClass = 'ft.TextButton'
+          break
+        case 'ghost':
+          ButtonClass = 'ft.ElevatedButton'
+          buttonStyle.bgcolor = 'transparent'
+          break
+        default:
+          ButtonClass = 'ft.ElevatedButton'
+          buttonStyle.bgcolor = formatValue(styles.backgroundColor || '#0175C2')
+          break
+      }
+
+      // Handle button size
+      const sizeMap = {
+        'sm': { height: 32 },
+        'default': { height: 40 },
+        'lg': { height: 48 }
+      }
+      const buttonHeight = sizeMap[buttonSize]?.height || 40
+      const width = parseInt(element.width) || 200
+
+      return `${ButtonClass}(
         text=${formatValue(element.content || '')},
-        bgcolor=${formatValue(styles.backgroundColor || '#0175C2')},
-        color=${formatValue(styles.color || '#FFFFFF')},
+        style=ft.ButtonStyle(
+            color=${formatValue(styles.color || '#FFFFFF')},
+            bgcolor=${formatValue(buttonStyle.bgcolor || styles.backgroundColor || '#0175C2')}
+        ),
+        width=${width},
+        height=${buttonHeight},
         on_click=lambda _: ${buttonFuncName}(),
         top=${y},
         left=${x}
