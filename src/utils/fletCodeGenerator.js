@@ -72,7 +72,7 @@ const generateControlCodeWithFunctions = (element, buttonFunctions, filePickerDi
         'lg': { height: 48 }
       }
       const buttonHeight = sizeMap[buttonSize]?.height || 40
-      const width = parseInt(element.width) || 200
+      const buttonWidth = parseInt(element.width) || 200
 
       return `${ButtonClass}(
         text=${formatValue(element.content || '')},
@@ -80,7 +80,7 @@ const generateControlCodeWithFunctions = (element, buttonFunctions, filePickerDi
             color=${formatValue(styles.color || '#FFFFFF')},
             bgcolor=${formatValue(buttonStyle.bgcolor || styles.backgroundColor || '#0175C2')}
         ),
-        width=${width},
+        width=${buttonWidth},
         height=${buttonHeight},
         on_click=lambda _: ${buttonFuncName}(),
         top=${y},
@@ -90,12 +90,12 @@ const generateControlCodeWithFunctions = (element, buttonFunctions, filePickerDi
     case 'image':
       const imageContent = element.content || ''
       const isBase64 = imageContent.startsWith('data:image/')
-      const width = parseInt(element.width) || 200
-      const height = parseInt(element.height) || 200
+      const imageWidth = parseInt(element.width) || 200
+      const imageHeight = parseInt(element.height) || 200
       return `ft.Image(
         ${isBase64 ? `src_base64="${imageContent.split(',')[1]}"` : `src=${formatValue(imageContent)}`},
-        width=${width},
-        height=${height},
+        width=${imageWidth},
+        height=${imageHeight},
         fit=ft.ImageFit.CONTAIN,
         top=${y},
         left=${x}
@@ -128,8 +128,8 @@ const generateControlCodeWithFunctions = (element, buttonFunctions, filePickerDi
 
     case 'filepicker': {
       const { dialogName, resultTextName, resultFuncName } = filePickerDialogs.get(element.id)
-      const width = parseInt(element.width) || 200
-      const height = parseInt(element.height) || 40
+      const filePickerWidth = parseInt(element.width) || 200
+      const filePickerHeight = parseInt(element.height) || 40
       const extensions = element.allowedExtensions || '*'
       const extensionsArray = extensions === '*' ? '' :
         `, allowed_extensions=[${extensions.split(',').map(ext => `"${ext.trim()}"`).join(', ')}]`
@@ -142,8 +142,8 @@ const generateControlCodeWithFunctions = (element, buttonFunctions, filePickerDi
             on_click=lambda _: ${dialogName}.pick_files(
                 allow_multiple=${element.allowMultiple ? "True" : "False"}${extensionsArray}
             ),
-            width=${width},
-            height=${height},
+            width=${filePickerWidth},
+            height=${filePickerHeight},
             style=ft.ButtonStyle(
                 bgcolor=${formatValue(styles.backgroundColor || '#0175C2')},
                 color=${formatValue(styles.color || '#FFFFFF')}
