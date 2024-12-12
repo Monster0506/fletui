@@ -88,10 +88,11 @@ const generateControlCodeWithFunctions = (element, buttonFunctions, filePickerDi
       )`
 
     case 'image':
-      const imageContent = element.content || ''
+      const defaultImageSrc = 'https://picsum.photos/200'
+      const imageContent = element.content || defaultImageSrc
       const isBase64 = imageContent.startsWith('data:image/')
-      const imageWidth = parseInt(element.width) || 200
-      const imageHeight = parseInt(element.height) || 200
+      const imageWidth = parseInt(element.width) || 150
+      const imageHeight = parseInt(element.height) || 150
       return `ft.Image(
         ${isBase64 ? `src_base64="${imageContent.split(',')[1]}"` : `src=${formatValue(imageContent)}`},
         width=${imageWidth},
