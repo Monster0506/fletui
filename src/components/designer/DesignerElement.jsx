@@ -282,8 +282,8 @@ const DesignerElement = ({ element }) => {
       onClick={handleClick}
       style={baseStyle}
       className={cn(
-        "relative",
-        isSelected && "outline outline-2 outline-primary outline-offset-2"
+        "relative shadow-sm hover:shadow-md transition-shadow",
+        isSelected && "outline outline-2 outline-indigo-500 outline-offset-2"
       )}
     >
       {renderElement()}

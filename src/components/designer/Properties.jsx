@@ -634,10 +634,10 @@ const Properties = () => {
   }
 
   return (
-    <div className="h-full bg-gray-50 border-l border-gray-200">
+    <div className="h-full bg-gray-50 border-l border-gray-200 shadow-md">
       <div className="p-4 border-b border-gray-200 flex items-center justify-between">
         <div>
-          <h3 className="text-sm font-medium text-gray-900">Properties</h3>
+          <h3 className="text-sm font-medium text-gray-900 bg-gray-100 p-2 rounded-md">Properties</h3>
           <p className="text-xs text-gray-500 mt-0.5">{selectedElement.type}</p>
         </div>
         <Button

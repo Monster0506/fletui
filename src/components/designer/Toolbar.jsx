@@ -123,7 +123,7 @@ const Toolbar = () => {
   }
   
   return (
-    <Card className="p-4 bg-background border-border">
+    <Card className="p-4 bg-gradient-to-r from-purple-500 to-indigo-500 border-border text-white">
       <h2 className="text-lg font-semibold mb-4 text-foreground">Add Elements</h2>
       <Separator className="mb-4" />
       <ScrollArea className="h-[calc(100vh-10rem)]">
@@ -135,10 +135,10 @@ const Toolbar = () => {
                   <Button
                     variant="ghost"
                     onClick={() => handleAddElement(et.type)}
-                    className="w-full justify-start gap-2 font-normal hover:bg-accent hover:text-accent-foreground"
+                    className="w-full justify-start gap-2 font-normal hover:bg-purple-700 transition-colors"
                   >
                     <et.icon className="h-4 w-4" />
-                    <span className="text-foreground">{et.label}</span>
+                    <span className="text-white">{et.label}</span>
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent side="right" className="bg-popover text-popover-foreground">

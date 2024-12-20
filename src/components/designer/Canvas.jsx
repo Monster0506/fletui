@@ -57,7 +57,7 @@ const Canvas = () => {
   
   return (
     <div 
-      className="w-full h-full relative bg-white rounded-lg shadow-lg overflow-hidden"
+      className="w-full h-full relative bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 rounded-lg overflow-hidden"
       onClick={handleCanvasClick}
     >
       <DndContext 
