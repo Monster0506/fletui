@@ -251,6 +251,24 @@ const elementProperties = {
       },
     },
   },
+  alertdialog: {
+    content: {
+      label: "Button Text",
+      type: "text",
+      defaultValue: "Show Alert"
+    },
+    dialogTitle: {
+      label: "Dialog Title",
+      type: "text",
+      defaultValue: "Alert"
+    },
+    dialogMessage: {
+      label: "Dialog Text",
+      type: "text",
+      defaultValue: "Placeholder message"
+    },
+    // Add any other custom fields as needed...
+  },
 }
 
 const dimensionProperties = {
@@ -617,6 +635,28 @@ const Properties = () => {
               ]}
               onChange={(value) => handleStyleUpdate("size", value)}
             />
+          </div>
+        )
+
+      case 'alertdialog':
+        return (
+          <div className="space-y-4">
+            <TextInput
+              label="Button Text"
+              value={selectedElement.content}
+              onChange={(value) => handleUpdate({ content: value })}
+            />
+            <TextInput
+              label="Dialog Title"
+              value={selectedElement.dialogTitle}
+              onChange={(value) => handleUpdate({ dialogTitle: value })}
+            />
+            <TextInput
+              label="Dialog Text"
+              value={selectedElement.dialogMessage}
+              onChange={(value) => handleUpdate({ dialogMessage: value })}
+            />
+            {/* Add more fields if needed */}
           </div>
         )
 

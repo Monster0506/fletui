@@ -269,6 +269,17 @@ const DesignerElement = ({ element }) => {
           </div>
         )
 
+      case 'alertdialog':
+        return (
+          <Button
+            variant="default"
+            className="w-full h-full"
+            disabled
+          >
+            {element.content || 'Show Alert'}
+          </Button>
+        )
+
       default:
         return <div className="w-full h-full">{element.content}</div>
     }

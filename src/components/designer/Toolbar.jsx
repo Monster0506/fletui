@@ -90,6 +90,13 @@ const elementTypes = [
     },
     allowMultiple: false,
     allowedExtensions: '*'
+  },
+  {
+    type: 'alertdialog',
+    label: 'Alert Dialog',
+    icon: Star, // or any other icon
+    defaultContent: 'Show Alert',
+    defaultStyles: {}
   }
 ]
 

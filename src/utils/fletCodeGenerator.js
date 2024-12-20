@@ -175,7 +175,9 @@ ft.app(main)`
 
   const buttonFunctions = new Map()
   const filePickerDialogs = new Map()
+  const alertDialogs = new Map()
   let filePickerCounter = 0
+  let alertDialogCounter = 0
 
   // First pass to generate function names and collect file picker dialogs
   elements.forEach(element => {
@@ -188,6 +190,16 @@ ft.app(main)`
       const resultFuncName = `pick_files_result_${filePickerCounter}`
       filePickerCounter++
       filePickerDialogs.set(element.id, { dialogName, resultTextName, resultFuncName })
+    } else if (element.type === 'alertdialog') {
+      const dialogName = `alert_dialog_${alertDialogCounter}`
+      const showAlertFunc = `show_alert_dialog_${alertDialogCounter}`
+      alertDialogs.set(element.id, { 
+        dialogName, 
+        showAlertFunc, 
+        dialogTitle: element.dialogTitle || 'Alert',
+        dialogMessage: element.dialogMessage || 'Placeholder message'
+      })
+      alertDialogCounter++
     }
   })
 
@@ -200,9 +212,19 @@ ft.app(main)`
     .join('\n')
 
   // Generate element code with special handling for file pickers
-  const elementsCode = elements.map(element => generateControlCodeWithFunctions(element, buttonFunctions, filePickerDialogs))
-    .filter(code => code) // Remove empty strings
-    .join(',\n        ')
+  const elementsCode = elements.map(element => {
+    if (element.type === 'alertdialog') {
+      const { dialogName, showAlertFunc } = alertDialogs.get(element.id)
+      return `ft.ElevatedButton(
+        text=${formatValue(element.content || 'Show Alert')},
+        icon=ft.icons.WARNING,
+        on_click=lambda _: ${showAlertFunc}(),
+        top=${Math.round(element.y || 0)},
+        left=${Math.round(element.x || 0)}
+      )`
+    }
+    return generateControlCodeWithFunctions(element, buttonFunctions, filePickerDialogs)
+  }).filter(code => code).join(',\n        ')
 
   // Generate the main function with imports at the top
   return `import flet as ft
@@ -222,6 +244,29 @@ def main(page: ft.Page):
     )
     ${resultTextName} = ft.Text("No file chosen", size=14)
 
+    page.overlay.append(${dialogName})`
+      )
+      .join('\n\n    ')}
+
+    # Alert dialog handlers and setup
+    ${Array.from(alertDialogs.values())
+      .map(({dialogName, showAlertFunc, dialogTitle, dialogMessage}) => 
+        `def ${showAlertFunc}():
+        page.open(${dialogName})
+        page.update()
+    def toggle_${dialogName}():
+        if ${dialogName}.open: 
+            page.close(${dialogName})
+        else:
+            page.open(${dialogName})
+        page.update()
+
+    ${dialogName} = ft.AlertDialog(
+        modal=False,
+        title=ft.Text(${formatValue(dialogTitle)}),
+        content=ft.Text(${formatValue(dialogMessage)}),
+        actions=[ft.TextButton("OK", on_click=lambda _: (page.close(${dialogName}), page.update()))]
+    )
     page.overlay.append(${dialogName})`
       )
       .join('\n\n    ')}
